@@ -7,6 +7,7 @@ sudo dnf -y install bzip2
 sudo dnf -y install dkms
 sudo dnf -y install kernel-devel
 sudo dnf -y install make
+sudo dnf -y install wget
 
 # Uncomment this if you want to install Guest Additions with support for X
 # sudo dnf -y install xorg-x11-server-Xorg

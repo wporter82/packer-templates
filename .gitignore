@@ -3,3 +3,6 @@
 .vagrant/
 output-*/
 packer_cache/
+*.bin
+*.bak
+*.exe

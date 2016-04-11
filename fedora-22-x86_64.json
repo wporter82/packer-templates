@@ -26,28 +26,64 @@
       ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
     ]
   }],
-  "provisioners": [{
-    "type": "shell",
-    "scripts": [
-      "scripts/fedora/virtualbox.sh",
-      "scripts/common/vagrant.sh",
-      "scripts/common/sshd.sh",
-      "scripts/fedora/locale.sh",
-      "scripts/fedora/cleanup.sh",
-      "scripts/common/minimize.sh"
-    ]
-  }],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts/coldfusion/silent.properties",
+      "destination": "silent.properties"
+    },
+    {
+      "type": "file",
+      "source": "scripts/coldfusion/neo-security-config.sh",
+      "destination": "neo-security-config.sh"
+    },
+    {
+      "type": "file",
+      "source": "scripts/coldfusion/httpd",
+      "destination": "httpd"
+    },
+    {
+      "type": "file",
+      "source": "scripts/coldfusion/coldfusion.service",
+      "destination": "coldfusion.service"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/fedora/virtualbox.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/common/sshd.sh",
+        "scripts/fedora/locale.sh"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "{{user `cfinstallbin`}}",
+      "destination": "{{user `cfinstallbin`}}"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/coldfusion/install.sh",
+        "scripts/fedora/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ]
+    }
+  ],
   "post-processors": [{
     "type": "vagrant",
     "compression_level": "{{user `compression_level`}}",
-    "output": "fedora-22-x86_64.box"
+    "output": "fedora-22-x86_64.box",
+    "vagrantfile_template": "./vagrantfile_templates/vagrantfile-fedora-22.template"
   }],
   "variables": {
     "compression_level": "6",
     "cpus": "1",
     "disk_size": "40000",
     "headless": "false",
-    "memory": "512",
-    "mirror": "http://download.fedoraproject.org/pub/fedora/linux"
+    "memory": "1024",
+    "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
+    "cfinstallbin": "ColdFusion_11_WWEJ_linux64.bin",
+    "cfinstalloc": "http://integration.stg.ortussolutions.com/artifacts/adobe/coldfusion/11.0.0/ColdFusion_11_WWEJ_linux64.bin"
   }
 }

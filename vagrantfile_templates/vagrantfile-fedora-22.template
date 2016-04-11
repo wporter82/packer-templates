@@ -1,0 +1,21 @@
+$script = <<-SHELL
+	# Reset CFIDE password
+	sudo bash -c 'echo rdspassword=>/opt/coldfusion/cfusion/lib/password.properties'
+	sudo bash -c 'echo password=password>>/opt/coldfusion/cfusion/lib/password.properties'
+	sudo bash -c 'echo encrypted=false>>/opt/coldfusion/cfusion/lib/password.properties'
+	# Start Server
+    sudo systemctl start httpd
+    sudo systemctl enable httpd
+    sudo systemctl start coldfusion
+    sudo systemctl enable coldfusion
+    # Disable selinux security
+    sudo setenforce 0
+    sudo bash -c 'echo SELINUX=disabled > /etc/selinux/config'
+    sudo bash -c 'echo SELINUXTYPE=targeted >> /etc/selinux/config'
+  SHELL
+
+Vagrant.configure('2') do |config|
+  config.vm.network "forwarded_port", guest: 80, host: 80, auto_correct: true
+  config.vm.synced_folder "./", "/var/www/html/", id: "vagrant-root", owner: "vagrant", group: "apache", mount_options: ["dmode=775,fmode=664"]
+  config.vm.provision "shell", inline: $script
+end

@@ -1,0 +1,11 @@
+[Unit]
+Description=The ColdFusion Server
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+ExecStart=/opt/coldfusion/cfusion/bin/coldfusion start
+ExecStop=/opt/coldfusion/cfusion/bin/coldfusion stop
+
+[Install]
+WantedBy=default.target
