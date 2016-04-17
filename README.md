@@ -1,6 +1,6 @@
 # packer-templates
 
-[![Travis](https://img.shields.io/travis/wporter82/packer-templates.svg?style=flat-square)](https://travis-ci.org/wporter82/packer-templates)
+<!-- [![Travis](https://img.shields.io/travis/wporter82/packer-templates.svg?style=flat-square)](https://travis-ci.org/wporter82/packer-templates) -->
 
 [Packer](https://www.packer.io/) template for [Vagrant](https://www.vagrantup.com/) base boxes
 
@@ -24,7 +24,7 @@ Build a machine image from the template in the repository:
 
 Add the built box to Vagrant:
 
-    $ vagrant box add fedora-22-x86_64 fedora-22-x86_64.box
+    $ vagrant box add CF11 fedora-22-x86_64.box
 
 ## Configuration
 
@@ -44,3 +44,12 @@ You can configure the template to match your requirements by setting the followi
 Build an uncompressed Fedora Linux vagrant box with a 4GB hard disk:
 
     $ packer build -var compression_level=0 -var disk_size=4000 fedora-22-x86_64.json
+
+## Appendix
+
+The fedora image will provision the ColdFusion server with settings if a settings.tar.gz file exists in the folder you vagrant up in.
+
+To package settings for inclusion, spin up a base server and set up everything as desired. Then vagrant ssh into the box and run the following command:
+	$ find /opt/coldfusion/ -iname 'neo*.xml' -exec tar -rvf /vagrant/settings.tar {} \; && gzip /vagrant/settings.tar
+
+The settings.tar.gz file will now be on the host and can be included in a new server spin-up.
