@@ -1,8 +1,11 @@
 @echo off
 
 echo Installing SQL Server 2014 Express, it will take a while...
-C:\Users\vagrant\SQLEXPR_x64_ENU.exe /Q /ACTION=INSTALL /INDICATEPROGRESS /IACCEPTSQLSERVERLICENSETERMS /FEATURES="SQLEngine,Conn" /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD="vagrant!@3" /UPDATEENABLED=0 /ERRORREPORTING=0 /SQLSYSADMINACCOUNTS=vagrant /INSTANCENAME="SQLServer"
+C:\Users\vagrant\SQLEXPR_x64_ENU.exe /Q /ACTION=INSTALL /INDICATEPROGRESS /IACCEPTSQLSERVERLICENSETERMS /FEATURES="SQLEngine,Conn" /TCPENABLED=True /SECURITYMODE=SQL /SAPWD="vagrant!@3" /UPDATEENABLED=True /ERRORREPORTING=False /SQLSYSADMINACCOUNTS=vagrant /INSTANCENAME="SQLServer"
 echo Done!
+
+echo Reverting server back to Core...
+powershell -Command Remove-WindowsFeature -Restart User-Interfaces-Infra
 
 echo Disabling firewall
 netsh advfirewall set allprofiles state off
