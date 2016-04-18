@@ -53,7 +53,15 @@
       "remote_path": "/tmp/script.bat",
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
-        "./scripts/windows/installmssql.bat",
+        "./scripts/windows/installmssql.bat"
+        ]
+    },
+    {
+      "type": "shell",
+      "pause_before": "5m",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "scripts": [
         "./scripts/windows/compact.bat"
         ]
     }
