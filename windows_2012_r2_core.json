@@ -10,9 +10,9 @@
       "boot_wait": "2m",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
-      "ssh_wait_timeout": "6h",
+      "ssh_wait_timeout": "12h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "shutdown_timeout": "10m",
+      "shutdown_timeout": "1h",
       "guest_os_type": "Windows2012_64",
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
@@ -38,9 +38,11 @@
         "./scripts/windows/vagrant-ssh.bat",
         "./scripts/windows/disable-auto-logon.bat",
         "./scripts/windows/enable-rdp.bat",
-        "./scripts/windows/compile-dotnet-assemblies.bat",
-        "./scripts/windows/installdotnet.bat"
+        "./scripts/windows/compile-dotnet-assemblies.bat"
       ]
+    },
+    {
+      "type": "windows-restart"
     },
     {
       "type": "file",
@@ -52,8 +54,14 @@
       "type": "shell",
       "remote_path": "/tmp/script.bat",
       "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
+      "inline": ["C:\\Users\\vagrant\\SQLEXPR_x64_ENU.exe /Q /ACTION=INSTALL /INDICATEPROGRESS /IACCEPTSQLSERVERLICENSETERMS /FEATURES=\"SQLEngine,Conn\" /TCPENABLED=1 /SECURITYMODE=SQL /SAPWD=\"vagrant!@3\" /UPDATEENABLED=1 /ERRORREPORTING=0 /SQLSYSADMINACCOUNTS=vagrant /INSTANCENAME=\"SQLServer\""]
+    },
+    {
+      "type": "shell",
+      "remote_path": "/tmp/script.bat",
+      "execute_command": "{{.Vars}} cmd /c C:/Windows/Temp/script.bat",
       "scripts": [
-        "./scripts/windows/installmssql.bat"
+        "./scripts/windows/postinstallmssql.bat"
         ]
     },
     {
@@ -71,8 +79,8 @@
       "type": "vagrant",
       "keep_input_artifact": false,
       "compression_level": "{{user `compression_level`}}",
-      "output": "windows_2012_r2_core_{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile_templates/vagrantfile-windows_2012_r2.template"
+      "output": "windows_2012_r2_core.box",
+      "vagrantfile_template": "vagrantfile_templates/vagrantfile-windows_2012_r2.rb"
     }
   ],
   "variables": {
@@ -81,9 +89,9 @@
     "iso_checksum": "458ff91f8abc21b75cb544744bf92e6a",
     "autounattend": "./answer_files/Autounattend.xml",
     "compression_level": "6",
-    "cpus": "2",
+    "cpus": "1",
     "disk_size": "61440",
     "headless": "true",
-    "memory": "2048"
+    "memory": "1024"
   }
 }

@@ -74,7 +74,7 @@
     "type": "vagrant",
     "compression_level": "{{user `compression_level`}}",
     "output": "fedora-22-x86_64.box",
-    "vagrantfile_template": "./vagrantfile_templates/vagrantfile-fedora-22.template"
+    "vagrantfile_template": "./vagrantfile_templates/vagrantfile-fedora-22.rb"
   }],
   "variables": {
     "compression_level": "6",
