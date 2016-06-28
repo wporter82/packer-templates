@@ -2,9 +2,9 @@
 
 <!-- [![Travis](https://img.shields.io/travis/wporter82/packer-templates.svg?style=flat-square)](https://travis-ci.org/wporter82/packer-templates) -->
 
-[Packer](https://www.packer.io/) templates for [Vagrant](https://www.vagrantup.com/) base boxes
+[Packer](https://www.packer.io/) template for [Vagrant](https://www.vagrantup.com/) base box
 
-Forked from [kaorimatz/packer-templates](https://github.com/kaorimatz/packer-templates) and modified to build ColdFusion 11 and SQL 2014 servers.
+Forked from [kaorimatz/packer-templates](https://github.com/kaorimatz/packer-templates) and modified to build ColdFusion 11 server
 
 ## Usage
 
@@ -12,23 +12,17 @@ Clone the repository:
 
     $ git clone https://github.com/wporter82/packer-templates && cd packer-templates
 
-Download SQL Server setup file:
-
-	$ wget https://download.microsoft.com/download/E/A/E/EAE6F7FC-767A-4038-A954-49B8B05D04EB/Express%2064BIT/SQLEXPR_x64_ENU.exe
-
 Download ColdFusion setup file:
 
 	$ wget http://integration.stg.ortussolutions.com/artifacts/adobe/coldfusion/11.0.0/ColdFusion_11_WWEJ_linux64.bin
 
-Build the machine images from the templates in the repository:
+Build the machine image from the template in the repository:
 
     $ packer build fedora-22-x86_64.json
-    $ packer build windows_2012_r2_core.json
 
 Manually add the built box to Vagrant:
 
     $ vagrant box add CF11 fedora-22-x86_64.box
-    $ vagrant box add SQL2014 windows_2012_r2_core.box
 
 Share build box and add it via shared path:
 
@@ -40,7 +34,7 @@ NOTE: the URI can be a URL or filepath such as file://share_location
 
 ## Configuration
 
-You can configure the templates to match your requirements by setting the following [user variables](https://packer.io/docs/templates/user-variables.html).
+You can configure the template to match your requirements by setting the following [user variables](https://packer.io/docs/templates/user-variables.html).
 
  User Variable       | Default Value | Description
 ---------------------|---------------|----------------------------------------------------------------------------------------
@@ -59,18 +53,12 @@ Build an uncompressed Fedora Linux vagrant box with a 4GB hard disk:
 
 ### ColdFusion Configuration
 
-The Fedora image will provision the ColdFusion server with settings if a settings.tar.gz file exists in the folder you vagrant up in.
+The image will provision the ColdFusion server with settings if a settings.tar.gz file exists in the folder you vagrant up in.
 
 To package settings for inclusion, spin up a base server and set up everything in CFIDE as desired. Then vagrant ssh into the box and run the following command:
 	$ find /opt/coldfusion/ -iname 'neo*.xml' -exec tar -rvf /vagrant/settings.tar {} \; && gzip /vagrant/settings.tar
 
 The settings.tar.gz file will now be on the host and can be included in a new server spin-up.
-
-### SQL Configuration
-
-The Windows image will provision SQL with data if a file called db.zip exists in the folder you vagrant up in.
-
-This file should be a zip file that contains all SQL commands to run in a file called db.sql.
 
 ## Appendix
 
@@ -82,8 +70,6 @@ The httpd config is modified to point to /var/www/html/public. The folder is cre
 
 - Fedora: vagrant
 - CFIDE: vagrant
-- Win Server: vagrant
-- SQL: vagrant!@3
 
 ### Issues
 
