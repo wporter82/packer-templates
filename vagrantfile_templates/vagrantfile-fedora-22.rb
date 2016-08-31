@@ -37,4 +37,9 @@ Vagrant.configure('2') do |config|
   # Start httpd after the system has loaded in order to give virtualbox time
   # to mount the shared folder
   config.vm.provision "shell", inline: "sudo systemctl start httpd", run: "always"
+
+  # Make sure network adapter is connected (VBox 5.1 bug)
+  config.vm.provider 'virtualbox' do |vb|
+	  vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
+  end
 end
