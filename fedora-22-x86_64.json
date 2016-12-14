@@ -34,6 +34,11 @@
     },
     {
       "type": "file",
+      "source": "scripts/coldfusion/installer.properties",
+      "destination": "installer.properties"
+    },
+    {
+      "type": "file",
       "source": "scripts/coldfusion/neo-security-config.sh",
       "destination": "neo-security-config.sh"
     },
@@ -46,6 +51,11 @@
       "type": "file",
       "source": "scripts/coldfusion/coldfusion.service",
       "destination": "coldfusion.service"
+    },
+    {
+      "type": "file",
+      "source": "scripts/coldfusion/cfjetty.service",
+      "destination": "cfjetty.service"
     },
     {
       "type": "shell",

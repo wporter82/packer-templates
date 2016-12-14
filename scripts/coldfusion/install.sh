@@ -6,8 +6,10 @@ chmod +x ColdFusion_11_WWEJ_linux64.bin
 chmod +x neo-security-config.sh
 chmod +x httpd
 chmod 664 coldfusion.service
+chmod 664 cfjetty.service
 sudo mv httpd /etc/rc.d/init.d/
 sudo mv coldfusion.service /etc/systemd/system/
+sudo mv cfjetty.service /etc/systemd/system/
 sudo systemctl daemon-reload
 
 # Disable Selinux
@@ -32,6 +34,13 @@ wget --delete-after http://localhost:8500/CFIDE/administrator/index.cfm?configSe
 # Stop CF server
 sudo /opt/coldfusion/cfusion/bin/coldfusion stop
 
+# Install ColdFusion add-ons
+wget -q http://download.macromedia.com/pub/coldfusion/updates/11/addonservices/coldfusion_11_addon_linux64.bin
+chmod +x coldfusion_11_addon_linux64.bin
+sudo ./coldfusion_11_addon_linux64.bin -f installer.properties -i silent
+rm -f coldfusion_11_addon_linux64.bin
+rm -f installer.properties
+
 # Enable CF security
 sudo ./neo-security-config.sh /opt/coldfusion/cfusion true
 rm -f neo-security-config.sh
@@ -42,3 +51,4 @@ sudo /opt/coldfusion/cfusion/runtime/bin/wsconfig -ws Apache -dir /etc/httpd/con
 # Set Apache to start on system boot
 sudo systemctl enable httpd
 sudo systemctl enable coldfusion
+sudo systemctl enable cfjetty

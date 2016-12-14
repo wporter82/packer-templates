@@ -10,6 +10,7 @@ $script = <<-SHELL
   # Update httpd to point to 'public' folder
   echo "Pointing Apache at /var/www/html/public/"
   sed -i \'/DocumentRoot/s/\\/var\\/www\\/html/\\/var\\/www\\/html\\/public/\' /etc/httpd/conf/httpd.conf
+  sed -i \'/DirectoryIndex/s/index.html/index.cfm index.html/\' /etc/httpd/conf/httpd.conf
   # Create the public folder if it doesn't exist so the server can start
   if [ ! -d /var/www/html/public ]; then
     echo "public folder does not exist, creating."
@@ -21,8 +22,8 @@ $script = <<-SHELL
   sudo bash -c 'echo SELINUX=disabled > /etc/selinux/config'
   sudo bash -c 'echo SELINUXTYPE=targeted >> /etc/selinux/config'
   # Start Server
-  echo "Starting Apache"
-  sudo systemctl start httpd
+  echo "Restarting Apache"
+  sudo systemctl restart httpd
 SHELL
 
 Vagrant.configure('2') do |config|

@@ -1,0 +1,13 @@
+[Unit]
+Description=Solr Service
+Requires=coldfusion.service
+After=coldfusion.service
+
+[Service]
+Type=forking
+ExecStart=/opt/coldfusion/cfusion/jetty/cfjetty start
+ExecStop=/opt/coldfusion/cfusion/jetty/cfjetty stop
+ExecReload=/opt/coldfusion/cfusion/jetty/cfjetty restart
+
+[Install]
+WantedBy=coldfusion.service
